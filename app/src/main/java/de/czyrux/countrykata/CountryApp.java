@@ -14,7 +14,7 @@ public class CountryApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        component = DaggerAppComponent.builder().appModule(new AppModule()).build();
+        component = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
     public AppComponent getComponent() {

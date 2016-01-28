@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import de.czyrux.countrykata.CountryApp;
 import de.czyrux.countrykata.R;
 import de.czyrux.countrykata.core.domain.country.Country;
-import de.czyrux.countrykata.core.domain.country.CountryRepository;
 import de.czyrux.countrykata.core.domain.country.action.AllCountriesAction;
 import de.czyrux.countrykata.core.domain.country.args.AllCountriesArgs;
 import de.czyrux.countrykata.core.domain.image.ImageLoader;
@@ -47,9 +46,6 @@ public class CountryListActivity extends AppCompatActivity {
 
     @Inject
     FeatureObject featureObject;
-
-    @Inject
-    CountryRepository countryService;
 
     @Bind(R.id.country_list)
     RecyclerView countryListView;

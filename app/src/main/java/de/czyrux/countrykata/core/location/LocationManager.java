@@ -1,7 +1,6 @@
 package de.czyrux.countrykata.core.location;
 
 import android.content.Context;
-import android.location.Location;
 
 import de.czyrux.countrykata.core.premission.RequestLocationPermission;
 
@@ -13,9 +12,5 @@ public class LocationManager {
     public LocationManager(final Context context, final RequestLocationPermission requestLocationPermission) {
         this.context = context;
         this.requestLocationPremission = requestLocationPermission;
-    }
-
-    public L getLocation(){
-        return Location.
     }
 }

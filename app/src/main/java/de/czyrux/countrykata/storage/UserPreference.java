@@ -1,10 +1,10 @@
 package de.czyrux.countrykata.storage;
 
-public class TrackingStorage {
+public class UserPreference {
 
     private final Storage storage;
 
-    public TrackingStorage(final Storage storage) {
+    public UserPreference(final Storage storage) {
         this.storage = storage;
     }
 }

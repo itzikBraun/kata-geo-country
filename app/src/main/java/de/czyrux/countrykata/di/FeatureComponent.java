@@ -3,6 +3,7 @@ package de.czyrux.countrykata.di;
 import dagger.Subcomponent;
 
 import de.czyrux.countrykata.core.domain.country.action.AllCountriesAction;
+import de.czyrux.countrykata.storage.UserPreference;
 import de.czyrux.countrykata.ui.CountryListActivity;
 import de.czyrux.countrykata.ui.FeatureObject;
 
@@ -15,4 +16,6 @@ public interface FeatureComponent {
     FeatureObject featureObject();
 
     AllCountriesAction allCountriesAction();
+
+    UserPreference userPreferance();
 }
