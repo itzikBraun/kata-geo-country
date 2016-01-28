@@ -16,28 +16,40 @@ import android.view.View;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import de.czyrux.countrykata.CountryApp;
 import de.czyrux.countrykata.R;
-import de.czyrux.countrykata.core.domain.Callback;
 import de.czyrux.countrykata.core.domain.country.Country;
-import de.czyrux.countrykata.core.domain.country.CountryService;
+import de.czyrux.countrykata.core.domain.country.CountryRepository;
+import de.czyrux.countrykata.core.domain.country.action.AllCountriesAction;
+import de.czyrux.countrykata.core.domain.country.args.AllCountriesArgs;
 import de.czyrux.countrykata.core.domain.image.ImageLoader;
-import de.czyrux.countrykata.di.ActivityComponent;
 import de.czyrux.countrykata.di.ActivityModule;
-import de.czyrux.countrykata.di.DaggerActivityComponent;
+import de.czyrux.countrykata.di.AppComponent;
+import de.czyrux.countrykata.di.FeatureModule;
+import de.czyrux.countrykata.util.RxUtils;
+
+import rx.Observer;
 
 public class CountryListActivity extends AppCompatActivity {
 
     @Inject
-    CountryService countryService;
+    AllCountriesAction allCountriesAction;
 
     @Inject
     ImageLoader imageLoader;
+
+    @Inject
+    ToastProvider toastProvider;
+
+    @Inject
+    FeatureObject featureObject;
+
+    @Inject
+    CountryRepository countryService;
 
     @Bind(R.id.country_list)
     RecyclerView countryListView;
@@ -52,13 +64,9 @@ public class CountryListActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityComponent component =
-            DaggerActivityComponent.builder()                                                    //
-                                   .appComponent(((CountryApp) getApplication()).getComponent()) //
-                                   .activityModule(new ActivityModule(this))                     //
-                                   .build();
+        AppComponent appComponent = ((CountryApp) getApplication()).getComponent();
 
-        component.inject(this);
+        appComponent.plus(new ActivityModule(this)).plus(new FeatureModule()).inject(this);
 
         setContentView(R.layout.activity_country_list);
         ButterKnife.bind(this);
@@ -77,18 +85,23 @@ public class CountryListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        countryService.getAllCountries(new Callback<List<Country>>() {
-                @Override
-                public void onSuccess(final List<Country> response) {
-                    progressBar.setVisibility(View.GONE);
-                    ((CountryAdapter) countryListView.getAdapter()).addCountries(response);
-                }
+        allCountriesAction.execute(new AllCountriesArgs())                   //
+                          .compose(RxUtils.<List<Country>>applySchedulers()) //
+                          .subscribe(new Observer<List<Country>>() {
+                                  @Override
+                                  public void onCompleted() { }
 
-                @Override
-                public void onFailure(final Throwable error) {
-                    Toast.makeText(CountryListActivity.this, "oops!", Toast.LENGTH_SHORT).show();
-                    Log.d("Tag", Log.getStackTraceString(error));
-                }
-            });
+                                  @Override
+                                  public void onError(final Throwable e) {
+                                      toastProvider.get("oops!").show();
+                                      Log.d("Tag", Log.getStackTraceString(e));
+                                  }
+
+                                  @Override
+                                  public void onNext(final List<Country> countries) {
+                                      progressBar.setVisibility(View.GONE);
+                                      ((CountryAdapter) countryListView.getAdapter()).addCountries(countries);
+                                  }
+                              });
     }
 }

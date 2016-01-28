@@ -1,13 +1,13 @@
 package de.czyrux.countrykata.di;
 
-import dagger.Component;
+import dagger.Subcomponent;
 
-import de.czyrux.countrykata.ui.CountryListActivity;
+import de.czyrux.countrykata.ui.ToastProvider;
 
 @ActivityScope
-@Component(modules = ActivityModule.class, dependencies = AppComponent.class)
+@Subcomponent(modules = {ActivityModule.class})
 public interface ActivityComponent {
+    FeatureComponent plus(FeatureModule featureModule);
 
-    void inject(CountryListActivity activity);
-
+    ToastProvider toastProvider();
 }

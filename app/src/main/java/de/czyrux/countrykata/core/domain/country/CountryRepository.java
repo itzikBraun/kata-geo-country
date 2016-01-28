@@ -2,10 +2,8 @@ package de.czyrux.countrykata.core.domain.country;
 
 import java.util.List;
 
-import de.czyrux.countrykata.core.domain.Callback;
-
 public interface CountryRepository {
-    void getAllCountries(Callback<List<Country>> callback);
+    List<Country> getAllCountries();
 
     Country getCountryByCode(String countryCode);
 

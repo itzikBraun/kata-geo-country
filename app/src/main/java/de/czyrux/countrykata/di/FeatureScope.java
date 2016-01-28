@@ -8,4 +8,4 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RUNTIME)
-public @interface AppScope { }
+public @interface FeatureScope { }
