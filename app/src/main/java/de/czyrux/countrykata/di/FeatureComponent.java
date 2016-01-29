@@ -1,21 +1,15 @@
 package de.czyrux.countrykata.di;
 
-import dagger.Subcomponent;
+import dagger.Component;
 
-import de.czyrux.countrykata.core.domain.country.action.AllCountriesAction;
 import de.czyrux.countrykata.storage.UserPreference;
 import de.czyrux.countrykata.ui.CountryListActivity;
-import de.czyrux.countrykata.ui.FeatureObject;
 
 @FeatureScope
-@Subcomponent(modules = FeatureModule.class)
+@Component(modules = FeatureModule.class, dependencies = ActivityComponent.class)
 public interface FeatureComponent {
 
     void inject(CountryListActivity activity);
-
-    FeatureObject featureObject();
-
-    AllCountriesAction allCountriesAction();
 
     UserPreference userPreferance();
 }
