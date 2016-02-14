@@ -1,5 +1,6 @@
 package de.czyrux.countrykata.ui.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
 
     private ImageLoader imageLoader;
     private CountryListPresenter presenter;
+    private ArrayList<Country> countries;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
 
     @Override
     public void showCountryList(final List<Country> countryList) {
+        countries = new ArrayList<>(countryList);
         ((CountryAdapter) countryListView.getAdapter()).setCountries(countryList);
     }
 
@@ -97,6 +100,6 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
 
     @Override
     public void onCountryClicked(final Country country, final int position, final ImageView imageView) {
-        CountryDetailActivity.launchWithAnimation(this, country.getAlpha2Code(), imageView);
+        CountryDetailActivity.launchWithAnimation(this, country.getAlpha2Code(), imageView, countries);
     }
 }
