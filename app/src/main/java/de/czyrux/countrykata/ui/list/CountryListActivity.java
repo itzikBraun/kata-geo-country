@@ -1,18 +1,23 @@
 package de.czyrux.countrykata.ui.list;
 
+import java.util.List;
+
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
+
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 import de.czyrux.countrykata.R;
 import de.czyrux.countrykata.core.domain.country.Country;
 import de.czyrux.countrykata.core.domain.country.CountryService;
@@ -35,7 +40,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     private CountryListPresenter presenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_country_activity);
         ButterKnife.bind(this);
@@ -76,7 +81,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void showCountryList(List<Country> countryList) {
+    public void showCountryList(final List<Country> countryList) {
         ((CountryAdapter) countryListView.getAdapter()).setCountries(countryList);
     }
 
@@ -91,7 +96,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
     }
 
     @Override
-    public void onCountryClicked(Country country, int position) {
-        CountryDetailActivity.launch(this, country.getAlpha2Code());
+    public void onCountryClicked(final Country country, final int position, final ImageView imageView) {
+        CountryDetailActivity.launchWithAnimation(this, country.getAlpha2Code(), imageView);
     }
 }

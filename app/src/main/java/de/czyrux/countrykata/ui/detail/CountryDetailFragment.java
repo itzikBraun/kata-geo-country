@@ -1,24 +1,32 @@
 package de.czyrux.countrykata.ui.detail;
 
-import android.app.Activity;
+import java.text.NumberFormat;
+
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
+
+import android.content.Context;
+
 import android.os.Bundle;
+
+import android.support.v4.view.ViewCompat;
+
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import de.czyrux.countrykata.R;
 import de.czyrux.countrykata.core.domain.Callback;
 import de.czyrux.countrykata.core.domain.country.Country;
@@ -32,7 +40,7 @@ public class CountryDetailFragment extends BaseFragment {
 
     static final String ARG_CODE = "code";
 
-    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.getDefault());
 
     @Bind(R.id.country_detail_content)
     View contentView;
@@ -99,7 +107,7 @@ public class CountryDetailFragment extends BaseFragment {
     private CountryService countryService;
     private String countryCode;
 
-    public static CountryDetailFragment newInstance(String countryCode) {
+    public static CountryDetailFragment newInstance(final String countryCode) {
         CountryDetailFragment fragment = new CountryDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CODE, countryCode);
@@ -107,14 +115,13 @@ public class CountryDetailFragment extends BaseFragment {
         return fragment;
     }
 
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(final Context context) {
+        super.onAttach(context);
         try {
-            listener = (CountryDetailListener) activity;
+            listener = (CountryDetailListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement CountryDetailListener");
+            throw new ClassCastException(context.toString() + " must implement CountryDetailListener");
         }
     }
 
@@ -125,7 +132,7 @@ public class CountryDetailFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         countryService = Injector.countryService();
@@ -134,26 +141,32 @@ public class CountryDetailFragment extends BaseFragment {
     }
 
     @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewCompat.setTransitionName(imageView, countryCode);
+    }
+
+    @Override
     protected int getViewLayoutResourceId() {
         return R.layout.detail_fragment;
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
         countryService.getCountryByCode(countryCode, new Callback<Country>() {
-            @Override
-            public void onSuccess(Country response) {
-                country = response;
-                populate();
-            }
+                @Override
+                public void onSuccess(final Country response) {
+                    country = response;
+                    populate();
+                }
 
-            @Override
-            public void onFailure(Throwable error) {
-                Toast.makeText(getActivity(), "Ups!", Toast.LENGTH_SHORT).show();
-                Log.d("Tag", Log.getStackTraceString(error));            }
-        });
+                @Override
+                public void onFailure(final Throwable error) {
+                    Toast.makeText(getActivity(), "Ups!", Toast.LENGTH_SHORT).show();
+                    Log.d("Tag", Log.getStackTraceString(error));
+                }
+            });
     }
 
     private void populate() {
@@ -185,7 +198,6 @@ public class CountryDetailFragment extends BaseFragment {
             locationTextView.setText(country.getRegion() + ", " + country.getSubregion());
             timezonesTextView.setText(Arrays.toString(country.getTimezones()));
 
-
             if (country.getLatlong() != null && country.getLatlong().length == 2) {
                 latitudeTextView.setText(String.valueOf(country.getLatlong()[0]));
                 longitudeTextView.setText(String.valueOf(country.getLatlong()[1]));
@@ -213,14 +225,16 @@ public class CountryDetailFragment extends BaseFragment {
 
             if (country.getTranslations() != null) {
                 for (Map.Entry<String, String> translationEntry : country.getTranslations().entrySet()) {
-                    View itemView = LayoutInflater.from(contentView.getContext()).inflate(R.layout.detail_translation_item, translationsLayout, false);
-                    ((TextView) ButterKnife.findById(itemView, R.id.country_detail_translation_item_language)).setText(translationEntry.getKey());
-                    ((TextView) ButterKnife.findById(itemView, R.id.country_detail_translation_item_translation)).setText(translationEntry.getValue());
+                    View itemView = LayoutInflater.from(contentView.getContext()).inflate(
+                            R.layout.detail_translation_item, translationsLayout, false);
+                    ((TextView) ButterKnife.findById(itemView, R.id.country_detail_translation_item_language)).setText(
+                        translationEntry.getKey());
+                    ((TextView) ButterKnife.findById(itemView, R.id.country_detail_translation_item_translation))
+                        .setText(translationEntry.getValue());
 
                     translationsLayout.addView(itemView);
                 }
             }
-
 
             // Misc block
             callingCodesTextView.setText(Arrays.toString(country.getCallingCodes()));
