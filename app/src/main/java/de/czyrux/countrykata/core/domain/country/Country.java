@@ -1,11 +1,16 @@
 package de.czyrux.countrykata.core.domain.country;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
-public class Country {
+import com.google.gson.annotations.SerializedName;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Country implements Parcelable {
 
     @SerializedName("name")
     private String name;
@@ -64,14 +69,13 @@ public class Country {
     @SerializedName("translations")
     private Map<String, String> translations;
 
-    public Country() {
-    }
+    public Country() { }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -79,7 +83,7 @@ public class Country {
         return capital;
     }
 
-    public void setCapital(String capital) {
+    public void setCapital(final String capital) {
         this.capital = capital;
     }
 
@@ -87,7 +91,7 @@ public class Country {
         return relevance;
     }
 
-    public void setRelevance(float relevance) {
+    public void setRelevance(final float relevance) {
         this.relevance = relevance;
     }
 
@@ -95,7 +99,7 @@ public class Country {
         return region;
     }
 
-    public void setRegion(String region) {
+    public void setRegion(final String region) {
         this.region = region;
     }
 
@@ -103,7 +107,7 @@ public class Country {
         return population;
     }
 
-    public void setPopulation(long population) {
+    public void setPopulation(final long population) {
         this.population = population;
     }
 
@@ -111,7 +115,7 @@ public class Country {
         return subregion;
     }
 
-    public void setSubregion(String subregion) {
+    public void setSubregion(final String subregion) {
         this.subregion = subregion;
     }
 
@@ -119,7 +123,7 @@ public class Country {
         return demonym;
     }
 
-    public void setDemonym(String demonym) {
+    public void setDemonym(final String demonym) {
         this.demonym = demonym;
     }
 
@@ -127,7 +131,7 @@ public class Country {
         return area;
     }
 
-    public void setArea(float area) {
+    public void setArea(final float area) {
         this.area = area;
     }
 
@@ -135,7 +139,7 @@ public class Country {
         return gini;
     }
 
-    public void setGini(float gini) {
+    public void setGini(final float gini) {
         this.gini = gini;
     }
 
@@ -143,7 +147,7 @@ public class Country {
         return timezones;
     }
 
-    public void setTimezones(String[] timezones) {
+    public void setTimezones(final String[] timezones) {
         this.timezones = timezones;
     }
 
@@ -151,7 +155,7 @@ public class Country {
         return borders;
     }
 
-    public void setBorders(String[] borders) {
+    public void setBorders(final String[] borders) {
         this.borders = borders;
     }
 
@@ -159,7 +163,7 @@ public class Country {
         return nativeName;
     }
 
-    public void setNativeName(String nativeName) {
+    public void setNativeName(final String nativeName) {
         this.nativeName = nativeName;
     }
 
@@ -167,7 +171,7 @@ public class Country {
         return callingCodes;
     }
 
-    public void setCallingCodes(String[] callingCodes) {
+    public void setCallingCodes(final String[] callingCodes) {
         this.callingCodes = callingCodes;
     }
 
@@ -175,7 +179,7 @@ public class Country {
         return topLevelDomain;
     }
 
-    public void setTopLevelDomain(String[] topLevelDomain) {
+    public void setTopLevelDomain(final String[] topLevelDomain) {
         this.topLevelDomain = topLevelDomain;
     }
 
@@ -183,7 +187,7 @@ public class Country {
         return alpha2Code;
     }
 
-    public void setAlpha2Code(String alpha2Code) {
+    public void setAlpha2Code(final String alpha2Code) {
         this.alpha2Code = alpha2Code;
     }
 
@@ -191,7 +195,7 @@ public class Country {
         return alpha3Code;
     }
 
-    public void setAlpha3Code(String alpha3Code) {
+    public void setAlpha3Code(final String alpha3Code) {
         this.alpha3Code = alpha3Code;
     }
 
@@ -199,7 +203,7 @@ public class Country {
         return currencies;
     }
 
-    public void setCurrencies(String[] currencies) {
+    public void setCurrencies(final String[] currencies) {
         this.currencies = currencies;
     }
 
@@ -207,7 +211,7 @@ public class Country {
         return languages;
     }
 
-    public void setLanguages(String[] languages) {
+    public void setLanguages(final String[] languages) {
         this.languages = languages;
     }
 
@@ -215,7 +219,7 @@ public class Country {
         return alternativeSpellings;
     }
 
-    public void setAlternativeSpellings(String[] alternativeSpellings) {
+    public void setAlternativeSpellings(final String[] alternativeSpellings) {
         this.alternativeSpellings = alternativeSpellings;
     }
 
@@ -223,7 +227,7 @@ public class Country {
         return latlong;
     }
 
-    public void setLatlong(float[] latlong) {
+    public void setLatlong(final float[] latlong) {
         this.latlong = latlong;
     }
 
@@ -231,7 +235,7 @@ public class Country {
         return translations;
     }
 
-    public void setTranslations(Map<String, String> translations) {
+    public void setTranslations(final Map<String, String> translations) {
         this.translations = translations;
     }
 
@@ -261,4 +265,86 @@ public class Country {
         sb.append('}');
         return sb.toString();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(final Parcel dest, final int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.capital);
+        dest.writeStringArray(this.alternativeSpellings);
+        dest.writeFloat(this.relevance);
+        dest.writeString(this.region);
+        dest.writeString(this.subregion);
+        dest.writeLong(this.population);
+        dest.writeString(this.demonym);
+        dest.writeFloat(this.area);
+        dest.writeFloat(this.gini);
+        dest.writeStringArray(this.timezones);
+        dest.writeStringArray(this.borders);
+        dest.writeString(this.nativeName);
+        dest.writeStringArray(this.callingCodes);
+        dest.writeStringArray(this.topLevelDomain);
+        dest.writeString(this.alpha2Code);
+        dest.writeString(this.alpha3Code);
+        dest.writeStringArray(this.currencies);
+        dest.writeStringArray(this.languages);
+        dest.writeFloatArray(this.latlong);
+        if (translations != null) {
+            ArrayList<String> translationsKeys = new ArrayList<>();
+            translationsKeys.addAll(this.translations.keySet());
+
+            ArrayList<String> translationsValues = new ArrayList<>();
+            translationsValues.addAll(this.translations.values());
+            dest.writeList(translationsKeys);
+            dest.writeList(translationsValues);
+        }
+    }
+
+    protected Country(final Parcel in) {
+        this.name = in.readString();
+        this.capital = in.readString();
+        this.alternativeSpellings = in.createStringArray();
+        this.relevance = in.readFloat();
+        this.region = in.readString();
+        this.subregion = in.readString();
+        this.population = in.readLong();
+        this.demonym = in.readString();
+        this.area = in.readFloat();
+        this.gini = in.readFloat();
+        this.timezones = in.createStringArray();
+        this.borders = in.createStringArray();
+        this.nativeName = in.readString();
+        this.callingCodes = in.createStringArray();
+        this.topLevelDomain = in.createStringArray();
+        this.alpha2Code = in.readString();
+        this.alpha3Code = in.readString();
+        this.currencies = in.createStringArray();
+        this.languages = in.createStringArray();
+        this.latlong = in.createFloatArray();
+
+        ArrayList<String> translationsKeys;
+        ArrayList<String> translationsValues;
+        translationsKeys = new ArrayList<>();
+        in.readList(translationsKeys, String.class.getClassLoader());
+        translationsValues = new ArrayList<>();
+        in.readList(translationsValues, String.class.getClassLoader());
+        translations = new HashMap<>();
+        for (int i = 0; i < translationsKeys.size(); i++) {
+            translations.put(translationsKeys.get(i), translationsValues.get(i));
+        }
+    }
+
+    public static final Parcelable.Creator<Country> CREATOR = new Parcelable.Creator<Country>() {
+        public Country createFromParcel(final Parcel source) {
+            return new Country(source);
+        }
+
+        public Country[] newArray(final int size) {
+            return new Country[size];
+        }
+    };
 }
