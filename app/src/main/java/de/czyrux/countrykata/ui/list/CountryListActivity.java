@@ -14,6 +14,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import android.view.View;
 
@@ -37,6 +38,9 @@ import de.czyrux.countrykata.ui.util.SharedElementCompat;
 public class CountryListActivity extends AppCompatActivity implements CountryListListener, CountryListView {
 
     public static final String CURRENT_COUNTRY = "current_country";
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     @Bind(R.id.country_list)
     RecyclerView countryListView;
 
@@ -58,6 +62,8 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
 
         setContentView(R.layout.list_country_activity);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         imageLoader = Injector.imageLoader();
         setupViews();

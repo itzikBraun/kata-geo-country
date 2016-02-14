@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v4.view.ViewPager
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:context=".ui.detail.CountryDetailActivity">
+
+    <include layout="@layout/toolbar"
+             android:id="@id/toolbar"/>
+
+    <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/view_pager"/>
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentBottom="true">
 
-    <ImageView
-        android:id="@+id/country_detail_flag_anim_stub"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_image_height"
-        android:scaleType="centerCrop"/>
-</FrameLayout>
+        <android.support.v4.view.ViewPager
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/view_pager"/>
+
+        <ImageView
+            android:id="@+id/country_detail_flag_anim_stub"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_image_height"
+            android:scaleType="centerCrop"/>
+    </FrameLayout>
+</RelativeLayout>

@@ -16,6 +16,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -61,6 +62,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
 
         Intent intent = new Intent(activity, CountryDetailActivity.class);
+
         intent.putExtra(CountryDetailFragment.ARG_CODE, countryCode);
         intent.putParcelableArrayListExtra(CountryDetailActivity.COUNTRIES, countries);
         ActivityCompat.startActivityForResult(activity, intent, requestCode, options.toBundle());
@@ -72,6 +74,9 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.detail_country_activity);
+
+        Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
 
