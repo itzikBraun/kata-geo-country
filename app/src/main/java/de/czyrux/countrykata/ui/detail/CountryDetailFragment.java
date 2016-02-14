@@ -10,8 +10,6 @@ import android.content.Context;
 
 import android.os.Bundle;
 
-import android.support.v4.view.ViewCompat;
-
 import android.util.Log;
 
 import android.view.LayoutInflater;
@@ -143,7 +141,6 @@ public class CountryDetailFragment extends BaseFragment {
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewCompat.setTransitionName(imageView, countryCode);
     }
 
     @Override
