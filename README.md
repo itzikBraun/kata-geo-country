@@ -24,6 +24,9 @@ Exercise to practice MVP pattern (Model View Presenter) in Android.
  - Picasso https://square.github.io/picasso/
  - Butterknife http://jakewharton.github.io/butterknife/
 
+## TODO
+- Shared element transition is overlying the toolbar, status bar and navigation bar.
+- Handle cases when swiping exceeding the countries that were visible before opening details screen.
 ## Version
 1.0.0
 
