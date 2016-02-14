@@ -46,6 +46,14 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
     @Bind(R.id.country_detail_flag_anim_stub)
     ImageView imageView;
 
+    private final ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener =
+        new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                imageView.setVisibility(View.GONE);
+            }
+        };
+
     public static void launchWithAnimation(final Activity activity, final String countryCode,
             final Pair<View, String>[] elements, final ArrayList<Country> countries, final int requestCode) {
         Pair<View, String>[] pairs = SharedElementCompat.concatSystemUiElements(activity.getWindow().getDecorView(),
@@ -128,6 +136,12 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        ViewUtils.removeOnGlobalLayoutListener(viewPager, globalLayoutListener);
+    }
+
+    @Override
     public void finishAfterTransition() {
         final String transitionName = getCurrentCountryCode();
         Intent data = new Intent();
@@ -149,13 +163,7 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
     }
 
     private void hideAnimationStub() {
-        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    imageView.setVisibility(View.GONE);
-                    ViewUtils.removeOnGlobalLayoutListener(viewPager, this);
-                }
-            });
+        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
     }
 
     @Override
