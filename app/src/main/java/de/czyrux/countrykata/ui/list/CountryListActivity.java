@@ -63,6 +63,7 @@ public class CountryListActivity extends AppCompatActivity implements CountryLis
         setContentView(R.layout.list_country_activity);
         ButterKnife.bind(this);
 
+        SharedElementCompat.setupSystemUiTransition(getWindow());
         setSupportActionBar(toolbar);
 
         imageLoader = Injector.imageLoader();

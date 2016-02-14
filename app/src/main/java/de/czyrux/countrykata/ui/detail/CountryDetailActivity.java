@@ -76,6 +76,8 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         setContentView(R.layout.detail_country_activity);
 
         Toolbar toolbar = ButterKnife.findById(this, R.id.toolbar);
+        SharedElementCompat.setupSystemUiTransition(getWindow());
+
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
@@ -101,6 +103,8 @@ public class CountryDetailActivity extends AppCompatActivity implements CountryD
         setupEnterAnimation(countryCode, position);
 
         setupViewPager(position);
+
+        SharedElementCompat.waitForDecoreViewLayout(this);
     }
 
     private void setupEnterAnimation(final String countryCode, final int position) {
